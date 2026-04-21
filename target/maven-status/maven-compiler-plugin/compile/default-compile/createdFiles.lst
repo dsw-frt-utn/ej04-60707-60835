@@ -3,6 +3,7 @@ views\AgregarVehiculoC.class
 domain\VehiculoCombustible.class
 views\IAgregarVehiculo.class
 views\ImenuPrincipal.class
+domain\Marca.class
 domain\Responsable.class
 domain\Vehiculo.class
 views\ListarVehiculosView$1.class
