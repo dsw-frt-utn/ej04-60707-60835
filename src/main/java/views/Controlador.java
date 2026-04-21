@@ -15,11 +15,17 @@ public class Controlador implements ActionListener{
     Persistencia p = new Persistencia();
     ImenuPrincipal vista1 = new menuPrincipal();
     
-    ListarVehiculosView vista4 = new ListarVehiculosView();
-    
     public Controlador() {
   
         
+    
+    IAgregarVehiculo vista2 = new AgregarVehiculoE();
+    IAgregarVehiculo vista3 = new AgregarVehiculoC();
+    ListarVehiculosView vista4 = new ListarVehiculosView();
+    
+    public Controlador() {
+        vista2.setControlador(this);
+        vista3.setControlador(this);
         p.inicializar();
     }
     
@@ -57,10 +63,12 @@ public class Controlador implements ActionListener{
             String tipo = vista1.getTipo();
             if(tipo.equals("Electrico")){
                 vista1.ocultar();
-                //aqui se ejecutaria la ventana para cargar un auto electrico
+                vista2.ejecutar();
+        vista2.actualizar(p.getSucursales());
             }else if(tipo.equals("Combustible")){
                 vista1.ocultar();
-                //aqui se ejecutaria la ventana para cargar un auto a combustible
+                 vista3.ejecutar();
+        vista3.actualizar(p.getSucursales());
             }
         
         }
@@ -71,5 +79,18 @@ public class Controlador implements ActionListener{
             vista4.ejecutar();
         }
         
+        
+        
+        if(e.getActionCommand().equals(IAgregarVehiculo.AGREGAR_VEHICULO_E)){
+            p.agregarVehiculo(((AgregarVehiculoE) vista2).guardarVehiculo());
+            vista2.ocultar();
+            vista1.ejecutar();
+        }
+        if(e.getActionCommand().equals(IAgregarVehiculo.AGREGAR_VEHICULO_C)){
+            p.agregarVehiculo(((AgregarVehiculoC) vista3).guardarVehiculo());
+            vista3.ocultar();
+            vista1.ejecutar();
+            
+        }
     }
 }
