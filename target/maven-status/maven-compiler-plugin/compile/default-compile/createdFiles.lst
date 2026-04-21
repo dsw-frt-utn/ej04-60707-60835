@@ -1,6 +1,7 @@
 data\Persistencia.class
 views\AgregarVehiculoC.class
 domain\VehiculoCombustible.class
+views\ImenuPrincipal.class
 views\IAgregarVehiculo.class
 views\ImenuPrincipal.class
 domain\Marca.class

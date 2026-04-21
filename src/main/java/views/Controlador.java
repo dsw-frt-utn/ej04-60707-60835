@@ -13,6 +13,11 @@ import java.util.Optional;
 public class Controlador implements ActionListener{
 
     Persistencia p = new Persistencia();
+    ImenuPrincipal vista1 = new menuPrincipal();
+    
+    public Controlador() {
+  
+        
     
     IAgregarVehiculo vista2 = new AgregarVehiculoE();
     IAgregarVehiculo vista3 = new AgregarVehiculoC();
@@ -25,12 +30,8 @@ public class Controlador implements ActionListener{
     }
     
     public void ejecutar(){
-        vista2.ejecutar();
-        vista2.actualizar(p.getSucursales());
-        vista3.ejecutar();
-        vista3.actualizar(p.getSucursales());
-        vista4.ejecutar();
-        
+        vista1.setControlador(this);
+        vista1.ejecutar();
     }
     
     public ArrayList<VehiculoViewModel> getVehiculos(){
@@ -58,16 +59,37 @@ public class Controlador implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(e.getActionCommand().equals(ImenuPrincipal.NUEVO_VEHICULO)){
+            String tipo = vista1.getTipo();
+            if(tipo.equals("Electrico")){
+                vista1.ocultar();
+                vista2.ejecutar();
+        vista2.actualizar(p.getSucursales());
+            }else if(tipo.equals("Combustible")){
+                vista1.ocultar();
+                 vista3.ejecutar();
+        vista3.actualizar(p.getSucursales());
+            }
+        
+        }
+        if(e.getActionCommand().equals(ImenuPrincipal.LISTAR_VEHICULOS)){
+            System.out.println("ActionCommand: " + e.getActionCommand());
+            vista1.ocultar();
+            vista4.listarVehiculos(getVehiculos());
+            vista4.ejecutar();
+        }
+        
         
         
         if(e.getActionCommand().equals(IAgregarVehiculo.AGREGAR_VEHICULO_E)){
             p.agregarVehiculo(((AgregarVehiculoE) vista2).guardarVehiculo());
-            vista4.listarVehiculos(getVehiculos());
-            
+            vista2.ocultar();
+            vista1.ejecutar();
         }
         if(e.getActionCommand().equals(IAgregarVehiculo.AGREGAR_VEHICULO_C)){
             p.agregarVehiculo(((AgregarVehiculoC) vista3).guardarVehiculo());
-            vista4.listarVehiculos(getVehiculos());
+            vista3.ocultar();
+            vista1.ejecutar();
             
         }
     }
