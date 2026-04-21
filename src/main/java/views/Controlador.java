@@ -1,5 +1,7 @@
 package views;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import data.Persistencia;
 import domain.Vehiculo;
 import domain.VehiculoTipo;
@@ -7,11 +9,28 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
-public class Controlador {
+
+public class Controlador implements ActionListener{
+
+    Persistencia p = new Persistencia();
+    ImenuPrincipal vista1 = new menuPrincipal();
     
-    public static ArrayList<VehiculoViewModel> getVehiculos(){
+    ListarVehiculosView vista4 = new ListarVehiculosView();
+    
+    public Controlador() {
+  
+        
+        p.inicializar();
+    }
+    
+    public void ejecutar(){
+        vista1.setControlador(this);
+        vista1.ejecutar();
+    }
+    
+    public ArrayList<VehiculoViewModel> getVehiculos(){
         ArrayList<VehiculoViewModel> vehiculos = new ArrayList<>();
-        for(Vehiculo vehiculo : Persistencia.getVehiculos()) {
+        for(Vehiculo vehiculo : p.getVehiculos()) {
             vehiculos.add(new VehiculoViewModel(vehiculo));
         }
         return vehiculos;
@@ -30,5 +49,27 @@ public class Controlador {
            }
         }
         return new double[] {consumoElectricos, consumoCombustible};
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getActionCommand().equals(ImenuPrincipal.NUEVO_VEHICULO)){
+            String tipo = vista1.getTipo();
+            if(tipo.equals("Electrico")){
+                vista1.ocultar();
+                //aqui se ejecutaria la ventana para cargar un auto electrico
+            }else if(tipo.equals("Combustible")){
+                vista1.ocultar();
+                //aqui se ejecutaria la ventana para cargar un auto a combustible
+            }
+        
+        }
+        if(e.getActionCommand().equals(ImenuPrincipal.LISTAR_VEHICULOS)){
+            System.out.println("ActionCommand: " + e.getActionCommand());
+            vista1.ocultar();
+            vista4.listarVehiculos(getVehiculos());
+            vista4.ejecutar();
+        }
+        
     }
 }
