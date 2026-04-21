@@ -1,5 +1,7 @@
 package views;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import data.Persistencia;
 import domain.Vehiculo;
 import domain.VehiculoTipo;
@@ -7,11 +9,33 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
-public class Controlador {
+
+public class Controlador implements ActionListener{
+
+    Persistencia p = new Persistencia();
     
-    public static ArrayList<VehiculoViewModel> getVehiculos(){
+    IAgregarVehiculo vista2 = new AgregarVehiculoE();
+    IAgregarVehiculo vista3 = new AgregarVehiculoC();
+    ListarVehiculosView vista4 = new ListarVehiculosView();
+    
+    public Controlador() {
+        vista2.setControlador(this);
+        vista3.setControlador(this);
+        p.inicializar();
+    }
+    
+    public void ejecutar(){
+        vista2.ejecutar();
+        vista2.actualizar(p.getSucursales());
+        vista3.ejecutar();
+        vista3.actualizar(p.getSucursales());
+        vista4.ejecutar();
+        
+    }
+    
+    public ArrayList<VehiculoViewModel> getVehiculos(){
         ArrayList<VehiculoViewModel> vehiculos = new ArrayList<>();
-        for(Vehiculo vehiculo : Persistencia.getVehiculos()) {
+        for(Vehiculo vehiculo : p.getVehiculos()) {
             vehiculos.add(new VehiculoViewModel(vehiculo));
         }
         return vehiculos;
@@ -30,5 +54,21 @@ public class Controlador {
            }
         }
         return new double[] {consumoElectricos, consumoCombustible};
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+        
+        if(e.getActionCommand().equals(IAgregarVehiculo.AGREGAR_VEHICULO_E)){
+            p.agregarVehiculo(((AgregarVehiculoE) vista2).guardarVehiculo());
+            vista4.listarVehiculos(getVehiculos());
+            
+        }
+        if(e.getActionCommand().equals(IAgregarVehiculo.AGREGAR_VEHICULO_C)){
+            p.agregarVehiculo(((AgregarVehiculoC) vista3).guardarVehiculo());
+            vista4.listarVehiculos(getVehiculos());
+            
+        }
     }
 }

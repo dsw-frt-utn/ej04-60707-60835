@@ -28,4 +28,11 @@ public class Sucursal {
     public Responsable getResponsable() {
         return responsable;
     }
+
+    @Override
+    public String toString() {
+        return "Sucursal{" + "codigo=" + codigo + ", direccion=" + direccion + ", ciudad=" + ciudad + ", responsable=" + responsable + '}';
+    }
+    
+    
 }

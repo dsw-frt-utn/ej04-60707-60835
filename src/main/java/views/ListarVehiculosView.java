@@ -11,13 +11,12 @@ public class ListarVehiculosView extends javax.swing.JFrame {
 
     /**
      * Creates new form ListarAnimalesView
+     * @param vehiculos
      */
     public ListarVehiculosView() {
         initComponents();
-        listarVehiculos();
     }
-    private void listarVehiculos(){
-        ArrayList<VehiculoViewModel> vehiculos = Controlador.getVehiculos();
+    public void listarVehiculos(ArrayList<VehiculoViewModel> vehiculos){
         vehiculosGrid.setModel(new DefaultTableModel(new Object[][] {}, 
             new String[] { "Patente","Vehículo", "Tipo", "Sucursal", "Cap.Carga", "Km/litro", "Año", "Litros extra", "Km a recorrer" }));
         
@@ -212,4 +211,7 @@ public class ListarVehiculosView extends javax.swing.JFrame {
     private javax.swing.JTable vehiculosGrid;
     // End of variables declaration//GEN-END:variables
 
+    public void ejecutar(){
+        setVisible(true);
+    }
 }
